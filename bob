@@ -1,0 +1,61 @@
+import pygame
+import sys
+
+# Initialize Pygame
+pygame.init()
+
+# Set up the game window
+window_width = 800
+window_height = 600
+window = pygame.display.set_mode((window_width, window_height))
+pygame.display.set_caption('Simple Arcade Game')
+
+# Set up colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# Set up the player
+player_width = 50
+player_height = 50
+player_x = window_width // 2 - player_width // 2
+player_y = window_height - player_height - 20
+player_speed = 5
+
+# Main game loop
+running = True
+while running:
+    # Handle events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Handle player input
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]:
+        player_x -= player_speed
+    if keys[pygame.K_RIGHT]:
+        player_x += player_speed
+    if keys[pygame.K_UP]:
+        player_y -= player_speed
+    if keys[pygame.K_DOWN]:
+        player_y += player_speed
+
+    # Keep the player within the bounds of the window
+    player_x = max(0, min(player_x, window_width - player_width))
+    player_y = max(0, min(player_y, window_height - player_height))
+
+    # Fill the window with white color
+    window.fill(WHITE)
+
+    # Draw the player
+    pygame.draw.rect(window, BLACK, (player_x, player_y, player_width, player_height))
+
+    # Update the display
+    pygame.display.update()
+
+    # Cap the frame rate
+    pygame.time.Clock().tick(60)
+
+# Quit Pygame
+pygame.quit()
+sys.exit()
